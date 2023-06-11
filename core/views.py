@@ -61,13 +61,11 @@ def cart(request):
 
 
 def signup(request):
-    if request.method == 'POST':
-        form = SignupForm(request.POST)
+    form = SignupForm(request.POST)
 
-        if form.is_valid():
-            form.save()
-
-            return redirect('/login/')
+    if form.is_valid():
+        form.save()
+        return redirect('/login/')
     else:
         form = SignupForm()  # GET case
 
