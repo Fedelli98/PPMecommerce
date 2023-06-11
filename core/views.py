@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
-from .forms import SignupForm
+from .forms import SignupForm, LoginForm
 from django.http import JsonResponse
 import json, datetime
 from .models import *
@@ -78,7 +78,13 @@ def signup(request):
 
 @csrf_exempt
 def login(request):
-    return render(request, 'core/login.html')
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+
+            return redirect('/login/')
+    return render(request, 'core/signup.html')
 
 
 def checkout(request):
