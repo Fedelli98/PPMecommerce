@@ -1,5 +1,16 @@
-asgiref @ file:///C:/Users/BUILDE~1/AppData/Local/Temp/abs_cchykh5sgr/croots/recipe/asgiref_1661287542702/work
-Django @ file:///C:/Users/BUILDE~1/AppData/Local/Temp/abs_eeor5o9jj8/croots/recipe/django_1661292534510/work
+asgiref==3.7.2
+certifi==2023.5.7
+charset-normalizer==3.1.0
+Django==4.2.2
+docopt==0.6.2
 gunicorn==20.1.0
-sqlparse @ file:///C:/b/abs_83jn6owfpc/croot/sqlparse_1668793499314/work
-tzdata @ file:///tmp/build/80754af9/python-tzdata_1611693927741/work
+idna==3.4
+Pillow==9.5.0
+pipreqs==0.4.13
+psycopg2==2.9.6
+requests==2.31.0
+sqlparse==0.4.4
+typing_extensions==4.6.3
+tzdata==2023.3
+urllib3==2.0.3
+yarg==0.1.9
