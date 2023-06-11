@@ -6,6 +6,7 @@ import json, datetime
 from .models import *
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import login
+from django.contrib.auth import logout
 
 
 # Create your views here.
@@ -92,6 +93,10 @@ def login_view(request):
             form = LoginForm()
     return render(request, 'core/login.html')
 
+@csrf_protect
+def logout_view(request):
+    logout(request)
+    return redirect('/login/:')
 
 def checkout(request):
     if request.user.is_authenticated:
