@@ -4,7 +4,7 @@ from .forms import SignupForm
 from django.http import JsonResponse
 import json, datetime
 from .models import *
-
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def index(request):
@@ -59,7 +59,7 @@ def cart(request):
     context = {'items': items, 'order': order, 'cartitems': cartitems}
     return render(request, 'core/cart.html', context)
 
-
+@csrf_exempt
 def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
@@ -76,7 +76,7 @@ def signup(request):
     context = {'form': form, 'cartitems': cartitems}
     return render(request, 'core/signup.html', context)
 
-
+@csrf_exempt
 def login(request):
     return render(request, 'core/login.html')
 
