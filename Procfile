@@ -1,0 +1,1 @@
+web: gunicorn PPMecommerce.wsgi --log-file -
