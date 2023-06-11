@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
-from .forms import SignupForm
+from .forms import SignupForm,LoginForm
 from django.http import JsonResponse
 import json, datetime
 from .models import *
+from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth import login
 
 
 # Create your views here.
@@ -59,13 +61,15 @@ def cart(request):
     context = {'items': items, 'order': order, 'cartitems': cartitems}
     return render(request, 'core/cart.html', context)
 
-
+@csrf_protect
 def signup(request):
-    form = SignupForm(request.POST)
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
 
-    if form.is_valid():
-        form.save()
-        return redirect('/login/')
+        if form.is_valid():
+            form.save()
+
+            return redirect('/cart/')
     else:
         form = SignupForm()  # GET case
 
@@ -74,8 +78,18 @@ def signup(request):
     context = {'form': form, 'cartitems': cartitems}
     return render(request, 'core/signup.html', context)
 
+@csrf_protect
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
 
-def login(request):
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+
+            return redirect('/cart/')
+        else:
+            form = LoginForm()
     return render(request, 'core/login.html')
 
 
