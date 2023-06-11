@@ -59,7 +59,6 @@ def cart(request):
     context = {'items': items, 'order': order, 'cartitems': cartitems}
     return render(request, 'core/cart.html', context)
 
-@csrf_exempt
 def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
@@ -76,7 +75,6 @@ def signup(request):
     context = {'form': form, 'cartitems': cartitems}
     return render(request, 'core/signup.html', context)
 
-@csrf_exempt
 def login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
