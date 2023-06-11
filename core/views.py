@@ -96,7 +96,7 @@ def login_view(request):
 @csrf_protect
 def logout_view(request):
     logout(request)
-    return redirect('/login/:')
+    return redirect('/login/')
 
 def checkout(request):
     if request.user.is_authenticated:
