@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
-from .forms import SignupForm,LoginForm
+from .forms import SignupForm, LoginForm
 from django.http import JsonResponse
 import json, datetime
 from .models import *
@@ -32,18 +32,33 @@ def index(request):
 def research(request):
     query = request.GET.get('query', '')
     products = Product.objects.filter(is_sold=False)
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        cartitems = order.get_cart_items
+    else:
+        order = {'get_cart_total': 0, 'get_cart_items': 0}
+        cartitems = order['get_cart_items']
 
     if query:
         products = products.filter(
             Q(name__icontains=query) | Q(description__icontains=query) | Q(subCategory__name__icontains=query))
 
-    context = {'products': products, 'query': query}
+    context = {'products': products, 'query': query, 'cartitems': cartitems}
     return render(request, 'core/research.html', context)
 
 
 def details(request, pk):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        cartitems = order.get_cart_items
+    else:
+        order = {'get_cart_total': 0, 'get_cart_items': 0}
+        cartitems = order['get_cart_items']
+
     item = get_object_or_404(Product, pk=pk)
-    context = {'item': item}
+    context = {'item': item, 'cartitems': cartitems}
 
     return render(request, 'core/details.html', context)
 
@@ -62,6 +77,7 @@ def cart(request):
     context = {'items': items, 'order': order, 'cartitems': cartitems}
     return render(request, 'core/cart.html', context)
 
+
 @csrf_protect
 def signup(request):
     if request.method == 'POST':
@@ -79,6 +95,7 @@ def signup(request):
     context = {'form': form, 'cartitems': cartitems}
     return render(request, 'core/signup.html', context)
 
+
 @csrf_protect
 def login_view(request):
     if request.method == 'POST':
@@ -93,10 +110,12 @@ def login_view(request):
             form = LoginForm()
     return render(request, 'core/login.html')
 
+
 @csrf_protect
 def logout_view(request):
     logout(request)
     return redirect('/login/')
+
 
 def checkout(request):
     if request.user.is_authenticated:
