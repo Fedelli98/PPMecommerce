@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Welcome{% endblock %}
+{% block content %}
+<p class="text-xl font-semibold">Benvenuto, {{ user.username }}</p>
+<hr>
+<form method="POST">
+  {% csrf_token %}
+  <label for="username" class="block text-sm font-medium text-gray-700">Username:</label>
+  <input type="text" name="username" class="form-input mt-1 block border border-2" value="{{ user.username }}">
+  <br>
+  <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
+  <input type="email" name="email" class="form-input mt-1 block border border-2" value="{{ user.email }}">
+  <br>
+  <label for="first_name" class="block text-sm font-medium text-gray-700">First Name:</label>
+  <input type="text" name="first_name" class="form-input mt-1 block border border-2" value="{{ user.first_name }}">
+  <br>
+  <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name:</label>
+  <input type="text" name="last_name" class="form-input mt-1 block border border-2" value="{{ user.last_name }}">
+  <br>
+  <button class="text-xl bg-teal-500 text-white px-2 py-1 rounded-lg hover:bg-teal-600" type="submit">Salva</button>
+</form>
+{% endblock %}

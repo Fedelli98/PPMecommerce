@@ -112,10 +112,15 @@ def login_view(request):
             user = form.get_user()
             login(request, user)
 
-            return redirect('/cart/')
+            return redirect('/index/')
         else:
             form = LoginForm()
-    return render(request, 'core/login.html')
+
+    order = {'get_cart_total': 0, 'get_cart_items': 0}
+    cartitems = order['get_cart_items']
+    context = {'form': form, 'cartitems': cartitems}
+
+    return render(request, 'core/login.html', context)
 
 
 @csrf_protect
@@ -190,3 +195,24 @@ def processOrder(request):
         print('User not logged in')
     print('Data: ', request.body)
     return JsonResponse('Payment Complete!', safe=False)
+
+
+def profile(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        cartitems = order.get_cart_items
+        if request.method == 'POST':
+            print('Data', request.POST['username'])
+            user = request.user
+            user.username = request.POST['username']
+            user.first_name = request.POST['first_name']
+            user.last_name = request.POST['last_name']
+            user.email = request.POST['email']
+            user.save()
+    else:
+        order = {'get_cart_total': 0, 'get_cart_items': 0}
+        cartitems = order['get_cart_items']
+
+    context = {'cartitems': cartitems}
+    return render(request, 'core/profile.html', context)

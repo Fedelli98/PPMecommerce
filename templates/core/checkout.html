@@ -26,11 +26,11 @@
                               <input type="text" id="name" name="name" class="form-input mt-1 block w-full" placeholder="Mario" required>
                             </div>
                             <div class="mb-4">
-                              <label for="name" class="block text-sm font-medium text-gray-700">Email</label>
+                              <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                               <input type="text" id="name" name="Email" class="form-input mt-1 block w-full" placeholder="Mario@email.com" required>
                             </div>
                             <div class="mb-4">
-                                <label for="name" class="block text-sm font-medium text-gray-700">Surname</label>
+                                <label for="surname" class="block text-sm font-medium text-gray-700">Surname</label>
                                 <input type="text" id="name" name="Surname" class="form-input mt-1 block w-full" placeholder="Rossi" required>
                             </div>
                         </div>
@@ -137,6 +137,7 @@
             addressformdata.state = form.state.value
             addressformdata.zipcode = form.zipcode.value
 
+            //per sicurezza
             if(user === 'AnonymousUser'){
                 userformdata.name = form.name.value
                 userformdata.surname = form.surname.value
