@@ -13,10 +13,10 @@
         </button>
     </a>
     <div class="bg-gray-100 min-h-screen">
-        <div class="container mx-auto py-8">
+        <div class="container mx-auto py-8 px-8">
            <h1 class="text-3xl font-semibold mb-8">Checkout</h1>
 
-            <div class="grid grid-cols-2 gap-8">
+            <div class="grid grid-cols-2 gap-8 ">
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <h2 class="text-xl font-semibold mb-4">Shipping Information</h2>
                     <form id="form" class="grid gap-4">
@@ -27,7 +27,7 @@
                             </div>
                             <div class="mb-4">
                               <label for="name" class="block text-sm font-medium text-gray-700">Email</label>
-                              <input type="text" id="name" name="Email"class="form-input mt-1 block w-full" placeholder="Mario@email.com" required>
+                              <input type="text" id="name" name="Email" class="form-input mt-1 block w-full" placeholder="Mario@email.com" required>
                             </div>
                             <div class="mb-4">
                                 <label for="name" class="block text-sm font-medium text-gray-700">Surname</label>
@@ -53,9 +53,10 @@
                                   <input type="text" id="zipcode" name="zipcode" class="form-input mt-1 block w-full" placeholder="20022" required>
                                 </div>
                             </div>
-                            <button id="pay" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600">Place Order</button>
-                        </div>
 
+                            <button id="pay" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 hidden">Place Order</button>
+                        </div>
+                        <input id="form_submit" type="submit" class="py-2 px-4 bg-teal-500 hover:bg-teal-600 text-white font-semibold rounded-lg cursor-pointer" value="Conferma">
                     </form>
 
                 </div>
@@ -98,12 +99,17 @@
             document.getElementById("userinfo").classList.add("hidden")
         }
 
-
+        var inputs = document.querySelectorAll('input[type="text"]')
         const form = document.getElementById("form")
         const total = '{{ order.get_cart_total }}'
 
         form.addEventListener('submit', function(e){
             e.preventDefault()
+            document.getElementById("form_submit").classList.add("hidden")
+            for (let i=0; i<inputs.length; i++){
+                inputs[i].setAttribute('readonly', 'readonly')
+            }
+            document.getElementById("pay").classList.remove("hidden")
         })
 
         document.getElementById('pay').addEventListener('click', function(e){

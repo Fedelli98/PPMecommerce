@@ -57,9 +57,11 @@
               <p class="text-lg font-semibold">Totale</p>
               <p class="text-lg font-semibold">${{ order.get_cart_total|floatformat:2 }}</p>
           </div>
-          <a href="{% url 'core:checkout' %}">
-              <button class="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-4 rounded mt-4">Procedi al pagamento</button>
-          </a>
+          {% if order.get_cart_items > 0 %}
+            <a href="{% url 'core:checkout' %}">
+                <button class="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-2 px-4 rounded mt-4">Procedi al pagamento</button>
+            </a>
+          {% endif %}
       </div>
   </div>
 </div>
