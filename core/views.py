@@ -31,7 +31,9 @@ def index(request):
 
 def research(request):
     query = request.GET.get('query', '')
+    idcategory = request.GET.get('category', 0)
     products = Product.objects.filter(is_sold=False)
+    categories = Category.objects.all()
     if request.user.is_authenticated:
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
@@ -40,11 +42,16 @@ def research(request):
         order = {'get_cart_total': 0, 'get_cart_items': 0}
         cartitems = order['get_cart_items']
 
+    if idcategory:
+        products = products.filter(category_id=idcategory)
+
     if query:
         products = products.filter(
-            Q(name__icontains=query) | Q(description__icontains=query) | Q(subCategory__name__icontains=query))
+            Q(name__icontains=query) | Q(description__icontains=query) | Q(category__name__icontains=query) | Q(
+                subCategory__name__icontains=query))
 
-    context = {'products': products, 'query': query, 'cartitems': cartitems}
+    context = {'products': products, 'query': query, 'cartitems': cartitems, 'categories': categories,
+               'idcategory': int(idcategory)}
     return render(request, 'core/research.html', context)
 
 
