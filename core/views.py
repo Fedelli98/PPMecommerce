@@ -198,21 +198,18 @@ def processOrder(request):
 
 
 def profile(request):
-    if request.user.is_authenticated:
-        customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        cartitems = order.get_cart_items
-        if request.method == 'POST':
-            print('Data', request.POST['username'])
-            user = request.user
-            user.username = request.POST['username']
-            user.first_name = request.POST['first_name']
-            user.last_name = request.POST['last_name']
-            user.email = request.POST['email']
-            user.save()
-    else:
-        order = {'get_cart_total': 0, 'get_cart_items': 0}
-        cartitems = order['get_cart_items']
+    customer = request.user.customer
+    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    cartitems = order.get_cart_items
+    if request.method == 'POST':
+        user = request.user
+        user.username = request.POST['username']
+        user.first_name = request.POST['first_name']
+        user.last_name = request.POST['last_name']
+        user.email = request.POST['email']
+        user.save()
 
-    context = {'cartitems': cartitems}
+    orders = Order.objects.filter(customer=customer)
+
+    context = {'cartitems': cartitems, 'orders': orders}
     return render(request, 'core/profile.html', context)

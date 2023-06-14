@@ -52,7 +52,7 @@
       <div class="bg-white rounded shadow p-4"><h2 class="text-xl font-semibold mb-2">Riepilogo carrello</h2>
           <div class="flex items-center justify-between py-3">
               <p class="text-lg font-semibold">Prodotti</p>
-              <p class="text-lg font-semibold">{{ order.get_cart_items|floatformat:2 }}</p>
+              <p class="text-lg font-semibold">{{ order.get_cart_items }}</p>
           </div><div class="flex items-center justify-between border-b border-gray-300 py-3">
               <p class="text-lg font-semibold">Totale</p>
               <p class="text-lg font-semibold">${{ order.get_cart_total|floatformat:2 }}</p>

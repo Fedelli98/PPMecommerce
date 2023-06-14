@@ -2,22 +2,63 @@
 
 {% block title %}Welcome{% endblock %}
 {% block content %}
-<p class="text-xl font-semibold">Benvenuto, {{ user.username }}</p>
-<hr>
-<form method="POST">
-  {% csrf_token %}
-  <label for="username" class="block text-sm font-medium text-gray-700">Username:</label>
-  <input type="text" name="username" class="form-input mt-1 block border border-2" value="{{ user.username }}">
-  <br>
-  <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
-  <input type="email" name="email" class="form-input mt-1 block border border-2" value="{{ user.email }}">
-  <br>
-  <label for="first_name" class="block text-sm font-medium text-gray-700">First Name:</label>
-  <input type="text" name="first_name" class="form-input mt-1 block border border-2" value="{{ user.first_name }}">
-  <br>
-  <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name:</label>
-  <input type="text" name="last_name" class="form-input mt-1 block border border-2" value="{{ user.last_name }}">
-  <br>
-  <button class="text-xl bg-teal-500 text-white px-2 py-1 rounded-lg hover:bg-teal-600" type="submit">Salva</button>
-</form>
+    <p class="text-4xl font-semibold">Benvenuto {{ user.username }}</p>
+    <hr><br>
+    <div class="grid grid-cols-3">
+        <div class="border-r border-gray-400 pr-4">
+            <form method="POST" class="flex flex-col">
+                {% csrf_token %}
+                <label for="username" class="block text-sm font-medium text-gray-700">Username:</label>
+                <input type="text" name="username" class="form-input mt-1 block border border-2" value="{{ user.username }}">
+                <br>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
+                <input type="email" name="email" class="form-input mt-1 block border border-2" value="{{ user.email }}">
+                <br>
+                <label for="first_name" class="block text-sm font-medium text-gray-700">First Name:</label>
+                <input type="text" name="first_name" class="form-input mt-1 block border border-2" value="{{ user.first_name }}">
+                <br>
+                <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name:</label>
+                <input type="text" name="last_name" class="form-input mt-1 block border border-2" value="{{ user.last_name }}">
+                <br>
+                <button class="text-xl bg-teal-500 text-white px-2 py-1 rounded-lg hover:bg-teal-600" type="submit">Salva</button>
+            </form>
+        </div>
+        <div class="col-span-2 pl-4">
+            {% for ord in orders %}
+                <div class="flex grid grid-cols-3 border-b border-gray-400 pb-4 pt-4">
+                    <div class="col-span-1">
+                        <p class="text-xl font-semibold">
+                            Ordine <span class="text-lg font-semibold"># {{ ord.id }}</span>
+                        </p>
+                        <p class="text-xl font-semibold">
+                            Data: <span class="text-lg font-semibold"> {{ ord.date_ordered|date:"d/m/Y H:i" }}</span>
+                        </p>
+                        <p class="text-xl font-semibold">
+                            Totale: <span class="text-lg font-semibold"> {{ ord.get_cart_total|floatformat:2 }}$</span>
+                        </p>
+                        <p class="text-xl font-semibold">
+                            Completato: <span class="text-lg font-semibold"> {% if ord.complete == True %}Sì{% else %}No{% endif %}</span>
+                        </p>
+                    </div>
+                    <div class="col-span-2 border-l border-gray-400">
+                        <p class="text-2xl font-semibold ml-4">Prodotti:</p>
+                        <div class="flex flex-wrap">
+                                {% for itemsordered in ord.orderitem_set.all %}
+                                    <div class="ml-4">
+                                        <div>
+                                            <p class="text-xl font-semibold">{{ itemsordered.product.name }}</p>
+                                            <p class="text-xl font-semibold">x {{ itemsordered.quantity }}</p>
+                                        </div>
+                                        <div class="w-20">
+                                            <img src="{{ itemsordered.product.imageURL}}" class="h-auto object-contain" alt="">
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
 {% endblock %}
