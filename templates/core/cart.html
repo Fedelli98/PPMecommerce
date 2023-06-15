@@ -23,26 +23,28 @@
                       <div class="flex  align-center space-x-10">
                           <div class="flex-1">
                               <h3 class="text-lg font-semibold">{{ item.product.name }}</h3>
-                              <p class="text-gray-600">Prezzo: ${{ item.product.price|floatformat:2 }}</p>
+                              <p class="text-gray-800 font-semibold">Prezzo: ${{ item.product.price|floatformat:2 }}</p>
                               <div class="flex align-center ">
-                                  <div class="flex">
-                                      <div class="text-gray-600">Quantità:</div>
+                                  <div class="flex items-center">
+                                      <div class="text-gray-800 font-semibold">Quantità:</div>
                                       <div class="rounded border border-gray-500 ml-2 p-1">
                                            {{ item.quantity }}
                                       </div>
                                   </div>
-                                  <div class="flex items-center ml-2">
-                                      <button id="updatecart" data-product="{{ item.product.id }}" data-action="add" class="button ml-2">
+                                  <div class="flex-column items-center ml-2 mt-1">
+                                      <button id="updatecart" data-product="{{ item.product.id }}" data-action="add" class="flex button mb-1">
                                           <img src="{% static "media/arrow-up.png"%}" class="h-3 w-3 cursor-pointer hover:opacity-75" alt="Freccia su">
                                       </button>
-                                      <button id="updatecart" data-product="{{ item.product.id }}" data-action="remove" class="button ml-2">
+                                      <button id="updatecart" data-product="{{ item.product.id }}" data-action="remove" class="flex button mb-1">
                                           <img src="{% static "media/arrow-down.png"%}" class="h-3 w-3 cursor-pointer hover:opacity-75" alt="Freccia giù">
                                       </button>
                                   </div>
                               </div>
                           </div>
-                          <div class="flex w-20">
-                              <img src="{{ item.product.imageURL}}" class="h-auto object-contain" alt="">
+                          <div class="flex items-center w-20">
+                              <a href="{% url "core:details" item.product.id %}" class="object-contain">
+                                <img src="{{ item.product.imageURL}}" alt="">
+                              </a>
                           </div>
                       </div><p class="text-gray-600">${{ item.get_total }}</p>
                   </div>
